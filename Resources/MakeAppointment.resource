@@ -1,6 +1,5 @@
 *** Settings ***
 Resource   ../Resources/Locators/MakeAppointmentLocators.resource
-
 Library    Collections
 Library    Zoomba.GUILibrary
 
@@ -12,37 +11,36 @@ Select Facility
     [Arguments]    ${facility}
     Click Element      ${make_facility_locator}    
 
-    Run Keyword If    '${facility}' == 'Tokyo'
-    ...    Click Element    ${make_facility_tokyo_locator}
-    ...  ELSE IF    '${facility}' == 'Hongkong'
-    ...    Click Element    ${make_facility_hongkong_locator}
-    ...  ELSE IF   '${facility}' == 'Seoul'
-    ...    Click Element    ${make_facility_seoul_locator}
-    ...  ELSE
-    ...    Log    Invalid Facility    WARN    
+    ${facility_locator}    Set Variable    ${EMPTY}
+    IF    '${facility}' == 'Tokyo'
+        ${facility_locator}    Set Variable     ${make_facility_tokyo_locator}
+    ELSE IF    '${facility}' == 'Hongkong'
+        ${facility_locator}    Set Variable     ${make_facility_hongkong_locator}
+    ELSE IF    '${facility}' == 'Seoul'
+        ${facility_locator}    Set Variable     ${make_facility_seoul_locator}   
+    END
+    Click Element      ${facility_locator}   
 
-    Click Element      ${make_facility_locator}    
 
-
-Select Hospital Readmission   
+Select Readmission   
     [Arguments]     ${readmission}
-    Run Keyword If    '${readmission}' == 'Yes'
-    ...    Click Element    ${make_hospital_readmission_locator}
-    ...  ELSE IF    '${readmission}' != 'No'
-    ...      Log    Invalid Hospital Readmission    WARN
+    IF   '${readmission}' == 'Yes'
+        Click Element    ${make_hospital_readmission_locator}        
+    END
+
     
     
 Select Healthcare Program   
     [Arguments]    ${program}
-    Run Keyword If    '${program}' == 'None'
-    ...    Click Element    ${make_program_none_locator}
-    ...  ELSE IF    '${program}' == 'Medicaid'
-    ...    Click Element    ${make_program_medicaid_locator}
-    ...  ELSE IF    '${program}' == 'Medicare'
-    ...    Click Element    ${make_program_medicare_locator}
-    ...  ELSE
-    ...    Log    Invalid Healthcare Program    WARN
-
+    ${program_locator}    Set Variable    ${EMPTY}
+    IF   '${program}' == 'None'
+        ${program_locator}    Set Variable    ${make_program_none_locator}
+    ELSE IF    '${program}' == 'Medicaid'
+        ${program_locator}    Set Variable    ${make_program_medicaid_locator}
+    ELSE IF    '${program}' == 'Medicare'
+        ${program_locator}    Set Variable    ${make_program_medicare_locator}
+    END
+    Click Element    ${program_locator}
    
 Enter Visit Date   
     [Arguments]    ${date}

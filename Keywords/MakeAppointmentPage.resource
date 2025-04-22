@@ -12,7 +12,7 @@ Library    String
 Make appointment
     [Arguments]    ${facility}    ${readmission}    ${program}    ${date}    ${comment}
     Select Facility   ${facility}
-    Select Hospital Readmission   ${readmission}
+    Select Readmission   ${readmission}
     Select Healthcare Program   ${program}
     Enter Visit Date   ${date}
     Enter Comment  ${comment}
